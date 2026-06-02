@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "react-scripts": "5.0.1",  // ← must be here, not devDependencies
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },

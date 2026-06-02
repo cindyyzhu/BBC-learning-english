@@ -55,12 +55,31 @@ function extractTranscriptUrl(description) {
 }
 
 async function fetchEpisodes(itunesId) {
-  const res = await fetch(`/api/itunes?id=${itunesId}`);
-  if (!res.ok) throw new Error("iTunes API error");
-  const json = await res.json();
+  const isLocal = window.location.hostname === 'localhost';
+  
+  let json;
+  if (isLocal) {
+    // On localhost, call iTunes directly (no CORS issue in dev)
+    const res = await fetch(`https://itunes.apple.com/lookup?id=${itunesId}&media=podcast&entity=podcastEpisode&limit=300`);
+    if (!res.ok) throw new Error("iTunes API error");
+    json = await res.json();
+  } else {
+    // On Vercel, use our serverless proxy
+    const res = await fetch(`/api/itunes?id=${itunesId}`);
+    if (!res.ok) throw new Error("iTunes API error");
+    json = await res.json();
+  }
+
   return json.results
     .filter(r => r.wrapperType === "podcastEpisode")
-    .map(r => ({ /* same as before */ }));
+    .map(r => ({
+      title: r.trackName || "Untitled",
+      pubDate: r.releaseDate || "",
+      audioUrl: r.episodeUrl || null,
+      duration: r.trackTimeMillis ? formatDur(r.trackTimeMillis) : "",
+      description: stripHtml(r.description || ""),
+      transcriptUrl: extractTranscriptUrl(r.description || ""),
+    }));
 }
 
 function formatDur(ms) {

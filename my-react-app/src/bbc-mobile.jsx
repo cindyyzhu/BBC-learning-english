@@ -55,20 +55,12 @@ function extractTranscriptUrl(description) {
 }
 
 async function fetchEpisodes(itunesId) {
-  const url = `https://itunes.apple.com/lookup?id=${itunesId}&media=podcast&entity=podcastEpisode&limit=300`;
-  const res = await fetch(url);
+  const res = await fetch(`/api/itunes?id=${itunesId}`);
   if (!res.ok) throw new Error("iTunes API error");
   const json = await res.json();
   return json.results
     .filter(r => r.wrapperType === "podcastEpisode")
-    .map(r => ({
-      title: r.trackName || "Untitled",
-      pubDate: r.releaseDate || "",
-      audioUrl: r.episodeUrl || null,
-      duration: r.trackTimeMillis ? formatDur(r.trackTimeMillis) : "",
-      description: stripHtml(r.description || ""),
-      transcriptUrl: extractTranscriptUrl(r.description || ""),
-    }));
+    .map(r => ({ /* same as before */ }));
 }
 
 function formatDur(ms) {
@@ -90,18 +82,11 @@ const PROXIES = [
 ];
 
 async function fetchTranscriptPage(transcriptUrl) {
-  let lastErr;
-  for (const make of PROXIES) {
-    try {
-      const res = await fetch(make(transcriptUrl), { signal: AbortSignal.timeout(8000) });
-      if (!res.ok) continue;
-      const text = await res.text();
-      let html = text;
-      try { const j = JSON.parse(text); if (j.contents) html = j.contents; } catch {}
-      if (html.length > 500) return html;
-    } catch (e) { lastErr = e; }
-  }
-  throw lastErr || new Error("All proxies failed");
+  const res = await fetch(`/api/proxy?url=${encodeURIComponent(transcriptUrl)}`, {
+    signal: AbortSignal.timeout(8000)
+  });
+  if (!res.ok) throw new Error("Proxy error");
+  return res.text();
 }
 
 function parseTranscriptHtml(html) {

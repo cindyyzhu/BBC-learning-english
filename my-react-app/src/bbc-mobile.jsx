@@ -164,6 +164,7 @@ function AudioPlayer({ audioUrl, title }) {
   return (
     <div style={{ background: "#16213e", borderRadius: 14, padding: "1.25rem", color: "#fff" }}>
       <audio ref={audioRef} src={audioUrl}
+        loop
         onTimeUpdate={() => { const a = audioRef.current; if (a?.duration) { setCurrentTime(a.currentTime); setProgress(a.currentTime/a.duration*100); }}}
         onLoadedMetadata={() => { if (audioRef.current) setDuration(audioRef.current.duration); }}
         onEnded={() => setPlaying(false)} />

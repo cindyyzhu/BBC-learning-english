@@ -453,9 +453,72 @@ export default function App() {
       </div>
 
       {/* ── Footer (desktop only) ── */}
-      <footer className="desktop-only" style={{ background: "#1a1a1a", color: "#777", textAlign: "center", padding: "1rem", fontSize: 12, fontFamily: "sans-serif" }}>
-        Content © <a href="https://www.bbc.co.uk/learningenglish/" target="_blank" rel="noopener" style={{ color: "#b11116" }}>BBC Learning English</a>. Episodes loaded live via iTunes API.
-      </footer>
+
+  <footer
+  className="desktop-only"
+  style={{
+    background: "#1a1a1a",
+    color: "#777",
+    padding: "0.75rem 1rem",
+    fontSize: 11,
+    fontFamily: "sans-serif",
+  }}
+>
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "1fr auto 1fr",
+      alignItems: "center",
+      width: "100%",
+    }}
+  >
+    {/* LEFT */}
+    <div style={{ textAlign: "left", lineHeight: 1.4 }}>
+      Content ©{" "}
+      <a
+        href="https://www.bbc.co.uk/learningenglish/"
+        target="_blank"
+        rel="noopener"
+        style={{ color: "#b11116", textDecoration: "none" }}
+      >
+        BBC Learning English
+      </a>
+      . Episodes loaded via iTunes API.
+    </div>
+
+    {/* CENTER */}
+    <div style={{ textAlign: "center", color: "#aaa" }}>
+      Made with <span style={{ color: "red" }}>♥</span> by Cindy Zhu 2026
+    </div>
+
+    {/* RIGHT */}
+    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <a
+        href="https://github.com/cindyyzhu/BBC-learning-english"
+        target="_blank"
+        rel="noopener"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          color: "#777",
+          textDecoration: "none",
+          fontSize: 11,
+        }}
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path d="M12 .5C5.7.5.7 5.7.7 12c0 5 3.2 9.3 7.6 10.8.6.1.8-.3.8-.6v-2.1c-3.1.7-3.7-1.3-3.7-1.3-.5-1.2-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 .1.8 2 .8 2 1.5 2.6 4.1 1.8 5.1 1.4.1-.7.4-1.2.7-1.5-2.5-.3-5.2-1.3-5.2-5.8 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.2 1.9-.3 2.9-.3s2 .1 2.9.3c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.2 5.8.4.4.7 1.1.7 2.2v3.2c0 .3.2.7.8.6 4.4-1.5 7.6-5.8 7.6-10.8C23.3 5.7 18.3.5 12 .5z" />
+        </svg>
+        <span>Check out my repo for this webpage!</span>
+      </a>
+    </div>
+  </div>
+</footer>
 
       <style>{`
         @media (max-width: 700px) {
